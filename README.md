@@ -1,5 +1,7 @@
 # xk6-telegram
 
+[![Build xk6 telegram](https://github.com/Maksimall89/xk6-telegram/actions/workflows/go.yml/badge.svg)](https://github.com/Maksimall89/xk6-telegram/actions/workflows/go.yml)
+
 This is a [k6](https://go.k6.io/k6) extension using the [xk6](https://github.com/grafana/xk6) system.
 
 | :exclamation: This is a proof of concept, isn't supported by the k6 team, and may break in the future. USE AT YOUR OWN RISK! |
@@ -39,7 +41,7 @@ If you use Windows:
 
 ```shell
 set CGO_ENABLED=1
-xk6 build master --with github.com/maksimall89/xk6-telegram
+xk6 build master --with github.com/maksimall89/xk6-telegram@latest
 ```
 
 ## Usage
@@ -108,7 +110,6 @@ if you need, you can debug mode on:
 import telegram from "k6/x/telegram";
 
 const conn = telegram.connect(`${__ENV.TOKEN}`, true);
-
 ```
 
 ### Create telegram bot

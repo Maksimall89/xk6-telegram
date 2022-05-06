@@ -2,9 +2,10 @@ package telegram
 
 import (
 	"errors"
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"go.k6.io/k6/js/modules"
 	"os"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"go.k6.io/k6/js/modules"
 )
 
 // Register the extension on module initialization, available to
