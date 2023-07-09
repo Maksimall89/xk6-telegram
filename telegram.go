@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"go.k6.io/k6/js/modules"
 )
 
@@ -46,7 +46,7 @@ func (t *Telegram) SendReplay(client *tgbotapi.BotAPI, chatID int64, replayID in
 
 // ShareImage exist a photo like http://myphoto.com/photo.png
 func (t *Telegram) ShareImage(client *tgbotapi.BotAPI, chatID int64, fileID string) error {
-	msg := tgbotapi.NewPhotoShare(chatID, fileID)
+	msg := tgbotapi.NewPhoto(chatID, tgbotapi.FileID(fileID))
 	_, err := client.Send(msg)
 	return err
 }
@@ -61,7 +61,7 @@ func (t *Telegram) UploadImageByte(client *tgbotapi.BotAPI, chatID int64, photoB
 		Bytes: photoBytes,
 	}
 
-	msg := tgbotapi.NewPhotoUpload(chatID, fileBytes)
+	msg := tgbotapi.NewPhoto(chatID, fileBytes)
 	_, err := client.Send(msg)
 	return err
 }
@@ -76,14 +76,10 @@ func (t *Telegram) UploadImagePath(client *tgbotapi.BotAPI, chatID int64, photoP
 }
 
 // GetUpdate last message from chat
-func (t *Telegram) GetUpdate(client *tgbotapi.BotAPI) (tgbotapi.Update, error) {
+func (t *Telegram) GetUpdate(client *tgbotapi.BotAPI) tgbotapi.Update {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
-	updates, err := client.GetUpdatesChan(u)
-	if err != nil {
-		return tgbotapi.Update{}, err
-	}
-
-	return <-updates, nil
+	updates := client.GetUpdatesChan(u)
+	return <-updates
 }
